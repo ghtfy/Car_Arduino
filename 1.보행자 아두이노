@@ -1,0 +1,85 @@
+int const ENA = 3;
+int const ENB = 11;
+int const IN1 = 4;
+int const IN2 = 5;
+int const IN3 = 13;
+int const IN4 = 12;
+
+void setup() {
+  Serial.begin(9600);  // 9600 보드레이트
+
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  pinMode(ENB, OUTPUT);
+
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, 0);
+  analogWrite(ENB, 0);
+}
+
+void forward() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, 255);
+  analogWrite(ENB, 255);
+}
+
+void backward() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  analogWrite(ENA, 255);
+  analogWrite(ENB, 255);
+}
+
+void turnLeft() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, 255);
+  analogWrite(ENB, 255);
+}
+
+void turnRight() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, 255);
+  analogWrite(ENB, 255);
+}
+
+void stop() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, 0);
+  analogWrite(ENB, 0);
+}
+
+void loop() {
+  if (Serial.available()) {
+    String data = Serial.readStringUntil('\n');
+
+    if (data == "Turn left") {
+      turnLeft();
+    } else if (data == "Turn Right") {
+      turnRight();
+    } else if (data == "Go straight") {
+      forward();
+    } else {
+      stop();
+    }
+  }
+}

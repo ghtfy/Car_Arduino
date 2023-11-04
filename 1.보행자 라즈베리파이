@@ -1,0 +1,66 @@
+import cv2
+import imutils
+from imutils.object_detection import non_max_suppression
+import numpy as np
+import time
+import serial
+
+# HOG cv2 object
+hog = cv2.HOGDescriptor()
+hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+font = cv2.FONT_HERSHEY_SIMPLEX
+
+# 시리얼 포트 맞추
+serial_port = '/dev/ttyACM0'  # 아두이노와 맞추기
+arduino_serial = serial.Serial(serial_port, 9600)  # 9600 보드레이트
+
+def detector(image):
+    rects, weights = hog.detectMultiScale(image, winStride=(4, 4), padding=(8, 8), scale=1.05)
+    
+    for (x, y, w, h) in rects:
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+
+    rects = np.array([[x, y, x + w, y + h] for (x, y, w, h) in rects])
+    result = non_max_suppression(rects, probs=None, overlapThresh=0.7)
+    
+    return result
+
+def main():
+    # 카메라 초기화
+    camera = cv2.VideoCapture(0)
+
+    # 카메라 해상도 및 프레임 속도 설정
+    camera.set(3, 640)  # 너비 설정
+    camera.set(4, 480)  # 높이 설정
+    camera.set(cv2.CAP_PROP_FPS, 30)  # 프레임 속도 설정
+
+    while True:
+        ret, frame = camera.read()
+        frame = imutils.resize(frame, width=min(400, frame.shape[1]))
+
+        result = detector(frame.copy())
+
+        if len(result) > 0:
+            print("보행자 감지: 정지")
+            arduino_serial.write('Stop\n'.encode())
+        else:
+            print("보행자 없음: 주행 중")
+            arduino_serial.write('Go straight\n'.encode())
+
+        # 보행자 검출 결과를 화면에 표시
+        for (xA, yA, xB, yB) in result:
+            cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 255, 0), 2)
+
+        cv2.imshow("Pedestrian Detection", frame)
+
+        # 'ESC' 키로 종료
+        if cv2.waitKey(10) & 0xFF == 27:
+            break
+
+    # 리소스 해제
+    camera.release()
+    cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    main()
+

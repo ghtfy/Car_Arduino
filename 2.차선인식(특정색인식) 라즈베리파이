@@ -1,0 +1,95 @@
+import cv2
+import numpy as np
+import math
+import serial
+import time
+
+# 시리얼 포트를 정의
+serial_port = '/dev/ttyACM0'  # 아두이노 포트와 일치하
+
+# 시리얼 통신을 통해 아두이노에 연결합니다
+arduino_serial = serial.Serial(serial_port, 9600)  # 9600 보드레이트
+
+# 노란색 차선 검출 매개변수
+threshold1 = 50
+threshold2 = 30
+minLineLength = 100기
+maxLineGap = 10
+
+# 카메라 초기화
+camera = cv2.VideoCapture(0)
+new_width = 640
+new_height = 480
+fps = 60
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, new_width)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, new_height)
+camera.set(cv2.CAP_PROP_FPS, fps)
+
+while True:
+    ret, frame = camera.read()
+
+    if not ret:
+        continue
+
+    # 이미지를 HSV 색상 공간으로 변환
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    # 노란색 영역을 정의 (HSV 범위)
+    lower_yellow = np.array([20, 100, 100])
+    upper_yellow = np.array([30, 255, 255])
+
+    # 노란색 영역을 마스크로 만듭니다
+    yellow_mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
+
+    # 원본 이미지에서 노란색만 남기고 다른 부분은 제거
+    yellow_lane = cv2.bitwise_and(frame, frame, mask=yellow_mask)
+
+    gray = cv2.cvtColor(yellow_lane, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    edged = cv2.Canny(blurred, threshold1, threshold2)
+
+    lines = cv2.HoughLinesP(edged, 1, np.pi / 180, 50, minLineLength, maxLineGap)
+
+    if lines is not None:
+        left_sum = 0
+        right_sum = 0
+        num_left = 0
+        num_right = 0
+
+        for line in lines:
+            x1, y1, x2, y2 = line[0]
+            angle = math.degrees(math.atan2(y2 - y1, x2 - x1))
+
+            if -45 < angle < 45:
+                right_sum += angle
+                num_right += 1
+            elif 135 > angle > 45:
+                left_sum += angle
+                num_left += 1
+
+            cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
+
+        avg_left = left_sum / num_left if num_left > 0 else 0
+        avg_right = right_sum / num_right if num_right > 0 else 0
+
+        left_threshold = 10
+        right_threshold = -10
+
+        if avg_left > left_threshold:
+            print("좌회전")
+            arduino_serial.write('Turn left\n'.encode())
+        elif avg_right < right_threshold:
+            print("우회전")
+            arduino_serial.write('Turn Right\n'.encode())
+        else:
+            print("직진")
+            arduino_serial.write('Go straight\n'.encode())
+
+    cv2.imshow("자율 주행 자동차", frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+camera.release()
+cv2.destroyAllWindows()
+

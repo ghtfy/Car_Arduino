@@ -1,0 +1,97 @@
+import cv2
+import numpy as np
+import math
+import serial
+import time
+
+# 시리얼 포트 설정 (때에따라 바꿔야함)
+serial_port = '/dev/ttyACM0'
+baud_rate = 9600
+
+# 아두이노와 시리얼 통신 연결
+arduino_serial = serial.Serial(serial_port, baud_rate)
+
+threshold1 = 50  # Hough 변환 매개 변수 조정
+threshold2 = 30  # Hough 변환 매개 변수 조정
+theta = 0
+minLineLength = 100  # 선의 최소 길이 조정
+maxLineGap = 10  # 선 사이의 최대 간격 조정
+
+# Raspberry Pi 카메라 모듈 초기화
+camera = cv2.VideoCapture(0)
+new_width = 640  # 원하는 가로 크기로 설정
+new_height = 480  # 원하는 세로 크기로 설정
+fps = 40  # 프레임 속도를 40fps로 설정
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, new_width)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, new_height)
+camera.set(cv2.CAP_PROP_FPS, fps)
+
+while True:
+    # 프레임 읽기
+    ret, frame = camera.read()
+
+    if not ret:
+        continue
+
+    # 이미지를 회색조로 변환
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # 가우시안 블러 적용
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+
+    # Canny 엣지 감지 적용
+    edged = cv2.Canny(blurred, threshold1, threshold2)
+
+    # 선을 감지하여 lines에 저장
+    lines = cv2.HoughLinesP(edged, 1, np.pi / 180, 50, minLineLength, maxLineGap)  # Hough 변환 매개 변수 조정
+
+    if lines is not None:
+        left_sum = 0
+        right_sum = 0
+        num_left = 0
+        num_right = 0
+
+        for line in lines:
+            x1, y1, x2, y2 = line[0]
+            angle = math.degrees(math.atan2(y2 - y1, x2 - x1))
+
+            # 차선을 왼쪽과 오른쪽으로 구분
+            if -45 < angle < 45:
+                right_sum += angle
+                num_right += 1
+            elif 135 > angle > 45:
+                left_sum += angle
+                num_left += 1
+
+            # 차선을 화면에 그리기
+            cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
+
+        # 왼쪽과 오른쪽 차선의 평균 각도 계산
+        avg_left = left_sum / num_left if num_left > 0 else 0
+        avg_right = right_sum / num_right if num_right > 0 else 0
+
+        # 명령을 내리기 위한 임계값 설정
+        left_threshold = 10  # 왼쪽으로 이동 명령을 내릴 임계값
+        right_threshold = -10  # 오른쪽으로 이동 명령을 내릴 임계값
+
+        if avg_left > left_threshold:
+            print("Go left")
+            data = '4'  # 왼쪽으로 이동하는 명령
+            arduino_serial.write(data.encode())
+        elif avg_right < right_threshold:
+            print("Go right")
+            data = '3'  # 오른쪽으로 이동하는 명령
+            arduino_serial.write(data.encode())
+        else:
+            print("Go straight")
+            data = '1'  # 직진하는 명령
+            arduino_serial.write(data.encode())
+
+    # 차선을 그린 프레임을 화면에 표시
+    cv2.imshow("Self Driving Car", frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+camera.release()
+cv2.destroyAllWindows()
