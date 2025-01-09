@@ -38,7 +38,7 @@
 ### 아두이노에서
 
 1. **Arduino IDE 설치**
-   - [Arduino 공식 웹사이트](https://www.arduino.cc/en/software)에서 Arduino IDE를 다운로드하고 설치합니다.
+   - Arduino 공식 웹사이트에서 Arduino IDE를 다운로드하고 설치합니다.
 
 2. **필요한 라이브러리 설치**
    - Arduino IDE에서 Servo, Ultrasonic 등 필요한 라이브러리를 설치합니다.
