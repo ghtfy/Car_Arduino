@@ -1,7 +1,7 @@
 # 🚗 Arduino & Raspberry Pi 기반 자율주행 자동차 프로젝트
 
 ## 📒 프로젝트 개요
-이 프로젝트는 라즈베리파이와 아두이노를 활용하여 저비용 자율주행 자동차를 설계하고 구현한 프로젝트입니다.
+이 프로젝트는 라즈베리파이와 아두이노를 활용하여 저비용 자율주행 자동차를 설계하고 구현한 프로젝트입니다.  
 OpenCV 기반 영상처리, 모터 제어, 그리고 센서 데이터를 활용하여 차선 인식, 장애물 감지, 신호등 및 표지판 인식과 같은 자율주행 핵심 기능을 구현하였습니다.
 
 ---
@@ -24,7 +24,8 @@ OpenCV 기반 영상처리, 모터 제어, 그리고 센서 데이터를 활용�
 ## 📖 자세한 정보
 프로젝트의 상세한 설명과 부품 목록, 사용 방법 등은 다음 문서에서 확인하세요:
 - **[구성 부품 및 사용 설명서](./docs/HardwareDetails.md)**
-- **[설치 및 실행 가이드](./docs/InstallationGuide.md)**
+- **[코드 구조 및 주요 알고리즘](./docs/CodeStructure.md)**
+- **[실행 가이드](./docs/InstallationGuide.md)**
 
 ---
 
@@ -32,6 +33,3 @@ OpenCV 기반 영상처리, 모터 제어, 그리고 센서 데이터를 활용�
 - **아두이노 자료**: [Hackster.io](https://www.hackster.io/)
 - **OpenCV 설치 가이드**: [QEngineering](https://qengineering.eu/install-opencv-on-raspberry-pi.html)
 - **학술 논문 자료**: [RISS](https://www.riss.kr/index.do)
-
----
-
