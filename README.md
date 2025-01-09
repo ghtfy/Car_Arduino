@@ -36,5 +36,3 @@
 
 ---
 
-### 🤝 기여 방법
-프로젝트에 기여하고 싶으시면 [CONTRIBUTING.md](./CONTRIBUTING.md)를 참조해주세요.
