@@ -28,7 +28,7 @@
    - Raspbian OS를 라즈베리파이에 설치합니다. (Raspberry Pi Imager 사용)
    
 2. **필수 라이브러리 설치**
-   - OpenCV와 pyserial 설치:
+   - OpenCV와 pyserial을 설치합니다:
      ```bash
      sudo apt-get update
      sudo apt-get install python3-opencv
@@ -84,4 +84,3 @@
    
 2. **차량 동작 테스트**
    - 차선 인식, 보행자 감지, 신호등 및 표지판 인식을 테스트하여 자율주행 기능이 정상적으로 작동하는지 확인합니다.
-
