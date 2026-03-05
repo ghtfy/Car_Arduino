@@ -4,19 +4,21 @@
 이 프로젝트는 라즈베리파이와 아두이노를 활용하여 자율주행 자동차를 설계하고 구현한 프로젝트입니다.  
 OpenCV 기반 영상처리, 모터 제어, 그리고 센서 데이터를 활용하여 차선 인식, 장애물 감지, 신호등 및 표지판 인식과 같은 자율주행 핵심 기능을 구현하였습니다.
 
----
+---## 📂 주요 기능
 
-## 📂 주요 기능
-1. **차선 인식**: Canny 엣지 검출 및 Hough 변환을 이용하여 차선을 추적.
-![Image](https://github.com/user-attachments/assets/7bcd63fa-2444-4479-b0d6-171c1964af69)
+<details>
+<summary><b>1. 차선 인식 (클릭하여 보기)</b></summary>
+<br>
+- Canny 엣지 검출 및 Hough 변환을 이용하여 차선을 추적합니다.
+<img src="https://github.com/user-attachments/assets/7bcd63fa-2444-4479-b0d6-171c1964af69" width="600px">
+</details>
 
-2. **장애물 감지**: HOG 디스크립터로 보행자를 검출하고 차량을 정지.
-![Image](https://github.com/user-attachments/assets/c95f9097-dac2-4483-9b0b-38b2249ed47f)
-3. **신호등 인식**: HSV 색상 공간에서 특정 색상(빨간색, 노란색, 초록색) 인식.
-![Image](https://github.com/user-attachments/assets/f71c3209-829e-4fd7-bd42-1091abe8b140)
-4. **표지판 인식**: 경계선 및 형태 분석으로 표지판 감지.
-
-![Image](https://github.com/user-attachments/assets/4c2cd393-57e0-45a8-87f1-884b9316595b)
+<details>
+<summary><b>2. 장애물 감지 (클릭하여 보기)</b></summary>
+<br>
+- HOG 디스크립터로 보행자를 검출하고 차량을 정지시킵니다.
+<img src="https://github.com/user-attachments/assets/c95f9097-dac2-4483-9b0b-38b2249ed47f" width="600px">
+</details>
 ---
 
 ## 📌 빠른 실행 가이드
