@@ -9,7 +9,7 @@
 <img src="https://img.shields.io/badge/Framework-OpenCV-green?style=flat-square">
 
 </div>
----
+
 
 ## 📝 프로젝트 개요
 라즈베리파이와 아두이노를 활용하여 자율주행 자동차를 설계하고 구현한 프로젝트입니다.  
