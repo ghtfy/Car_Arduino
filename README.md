@@ -1,5 +1,14 @@
-###  Arduino & Raspberry Pi 기반 자율주행 자동차 프로젝트
+<div align="center">
 
+# 🏎️ Arduino & Raspberry Pi 기반 자율주행 자동차 프로젝트
+
+본 프로젝트는 Arduino와 Raspberry Pi를 활용하여 자율주행 자동차를 설계하고 구현한 프로젝트입니다.
+
+<img src="https://img.shields.io/badge/Project-AutonomousCar-blue?style=flat-square">
+<img src="https://img.shields.io/badge/Language-Python-306998?style=flat-square&logo=python&logoColor=white">
+<img src="https://img.shields.io/badge/Framework-OpenCV-green?style=flat-square">
+
+</div>
 ---
 
 ## 📝 프로젝트 개요
