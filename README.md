@@ -5,8 +5,12 @@
 본 프로젝트는 Arduino와 Raspberry Pi를 활용하여 자율주행 자동차를 설계하고 구현한 프로젝트입니다.
 
 <img src="https://img.shields.io/badge/Project-AutonomousCar-blue?style=flat-square">
-<img src="https://img.shields.io/badge/Language-Python-306998?style=flat-square&logo=python&logoColor=white">
-<img src="https://img.shields.io/badge/Framework-OpenCV-green?style=flat-square">
+<img src="https://img.shields.io/badge/Language-Python-3776AB?style=flat-square&logo=python&logoColor=white">
+<img src="https://img.shields.io/badge/Library-OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white">
+<img src="https://img.shields.io/badge/Board-Raspberry%20Pi-A22846?style=flat-square&logo=raspberrypi&logoColor=white">
+<img src="https://img.shields.io/badge/Microcontroller-Arduino-00979D?style=flat-square&logo=arduino&logoColor=white">
+<img src="https://img.shields.io/badge/IDE-Arduino%20IDE-00979D?style=flat-square&logo=arduino&logoColor=white">
+<img src="https://img.shields.io/badge/OS-Raspberry%20Pi%20OS-C51A4A?style=flat-square&logo=raspberrypi&logoColor=white">
 
 </div>
 
