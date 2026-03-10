@@ -6,9 +6,9 @@
 
 <img src="https://img.shields.io/badge/Project-AutonomousCar-blue?style=flat-square">
 <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white">
+<img src="https://img.shields.io/badge/Arduino%20C%2F%2B%2B-00979D?style=flat-square&logo=arduino&logoColor=white">
 <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white">
 <img src="https://img.shields.io/badge/Raspberry%20Pi-A22846?style=flat-square&logo=raspberrypi&logoColor=white">
-<img src="https://img.shields.io/badge/Arduino-00979D?style=flat-square&logo=arduino&logoColor=white">
 <img src="https://img.shields.io/badge/Serial%20Communication-grey?style=flat-square">
 
 </div>
